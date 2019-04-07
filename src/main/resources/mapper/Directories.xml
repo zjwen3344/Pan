@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--//这里定义此XML指向DirectoriesDAO,也就是用XML形式实现了DirectoriesDAO内的方法;-->
+<mapper namespace="com.dao.DirectoriesDao">
+
+    <!--resultType可以把查询结果封装到pojo类型中，但必须pojo类的属性名和查询到的数据库表的字段名一致。-->
+    <!--如果sql查询到的字段与pojo的属性名不一致，则需要使用resultMap将字段名和属性名对应起来，进行手动配置封装，将结果映射到pojo中-->
+    <resultMap id="DirectoriesResultMap" type="Directories">
+        <id property="ID" column="ID"/>
+        <result property="directoriesName" column="directoriesName"/>
+        <result property="UserID" column="UserID"/>
+        <result property="ISdelete" column="ISdelete"/>
+        <result property="Superior_directories" column="Superior_directories"/>
+
+    </resultMap>
+
+    <select id="SelectByID" parameterType="String">
+        Select * from directories where ID=#{ID} and ISdelete=0
+    </select>
+
+    <select id="SelectByUserID" resultMap="DirectoriesResultMap" parameterType="String">
+        SELECT  * from directories where UserID=#{UserID} and Superior_directories=#{UserID} AND ISdelete=0
+    </select>
+
+
+    <select id="SelectByDirID" resultMap="DirectoriesResultMap" >
+        SELECT  * FROM  directories where  UploadUserID=#{0} and Superior_directories=#{1} and ISdelete=0
+    </select>
+
+    <insert id="Add" parameterType="Directories">
+      INSERT into directories(ID,directoriesName,UserID,ISdelete,Superior_directories)
+      VALUES(#{ID},#{directoriesName},#{UserID},0,#{Superior_directories})
+    </insert>
+
+
+
+</mapper>

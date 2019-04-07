@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--//这里定义此XML指向FileDAO,也就是用XML形式实现了DirectoriesDAO内的方法;-->
+<mapper namespace="com.dao.FileDao">
+
+    <!--resultType可以把查询结果封装到pojo类型中，但必须pojo类的属性名和查询到的数据库表的字段名一致。-->
+    <!--如果sql查询到的字段与pojo的属性名不一致，则需要使用resultMap将字段名和属性名对应起来，进行手动配置封装，将结果映射到pojo中-->
+    <resultMap id="FileResultMap" type="File">
+        <id property="ID" column="ID"/>
+        <result property="UploadUserID" column="UploadUserID"/>
+        <result property="FileName" column="FileName"/>
+        <result property="file_format" column="file_format"/>
+        <result property="fileMD5" column="fileMD5"/>
+        <result property="dow_link" column="dow_link"/>
+        <result property="directoriesID" column="directoriesID"/>
+        <result property="ISdelete" column="ISdelete"/>
+        <result property="coutn" column="coutn"/>
+        <result property="FileImg" column="FileImg"/>
+    </resultMap>
+
+    <select id="SelectByID" parameterType="String">
+        Select * from file where ID=#{ID} and ISdelete=0
+    </select>
+
+    <select id="SelectByUserID" resultMap="FileResultMap" parameterType="String">
+        SELECT  * from file where UploadUserID=#{UploadUserID} and directoriesID=#{UploadUserID} and ISdelete=0
+    </select>
+
+
+    <select id="SelectByDirID" resultMap="FileResultMap" >
+        SELECT  * FROM  file where  UploadUserID=#{0} and directoriesID=#{1} and ISdelete=0
+    </select>
+
+    <insert id="Add" parameterType="File">
+INSERT into file(ID,UploadUserID,FileName,file_format,fileMD5,dow_link,directoriesID,ISdelete,coutn,FileImg)
+VALUES(#{ID},#{UploadUserID},#{FileName},#{file_format},'这里是文件MD5',#{dow_link},#{directoriesID},0,0,#{FileImg})
+    </insert>
+
+
+
+</mapper>

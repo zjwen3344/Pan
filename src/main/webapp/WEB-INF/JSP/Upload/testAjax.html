@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>主页</title>
+    <link href="/static/css/basic.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/Pan.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+<div class="d1">
+</div>
+<div class="d2">
+    <div class="user-account">
+    </div>
+</div>
+<div class="d3">
+    <ul>
+        <li><a href="personal.html" target="target-a">用户信息</a></li>
+        <li><a href="file.html" target="target-a">我的文件</a></li>
+        <li><a href="create.html" target="target-a">新建文件夹</a></li>
+        <li><a href="check.html" target="target-a">查看下载</a></li>
+    </ul>
+</div>
+<div class="d5">
+    <div class="toolBox">
+        <div class="Upload">
+            <form action="">
+                <div class="Button">点击上传</div>
+                <input type="file"  id="File" class="file_input">
+            </form>
+        </div>
+        <button class="NewDIr">创建文件夹</button>
+
+        <div>
+            <form action="">
+                <input type="text" class="So">
+                <input type="submit" class="SO_Button" value="搜索" >
+            </form>
+
+        </div>
+    </div>
+</div>
+<div class="d4">
+
+
+</div>
+</body>
+</html>
+<script>
+    var thisDIr="deaa9b8953c711e99b3780fa5b2c15d4";
+    console.log("当前目录ID是:"+thisDIr);
+
+    $(function () {
+        var $input =  $("#File");
+        // ①为input设定change事件
+        $input.change(function () {
+            //    ②如果value不为空，调用文件加载方法
+            if($(this).val() != ""){
+                var form = new FormData();
+                form.append("multipartFile", $("#File")[0].files[0]);
+                form.append("DirID", thisDIr);
+
+                PostFIle(form);
+            }
+        })
+    })
+
+
+
+</script>
+
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/index.js"></script>
+<script src="/static/js/Pan.js"></script>

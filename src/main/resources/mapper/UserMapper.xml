@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--//这里定义此XML指向UserDAO,也就是用XML形式实现了UserDAO内的方法;-->
+<mapper namespace="com.dao.UserDao">
+
+    <!--resultType可以把查询结果封装到pojo类型中，但必须pojo类的属性名和查询到的数据库表的字段名一致。-->
+    <!--如果sql查询到的字段与pojo的属性名不一致，则需要使用resultMap将字段名和属性名对应起来，进行手动配置封装，将结果映射到pojo中-->
+    <resultMap id="UserResultMap" type="User">
+        <id property="ID" column="ID"/>
+        <result property="UserID" column="userID"/>
+        <result property="UserName" column="UserName"/>
+        <result property="Password" column="Password"/>
+        <result property="Email" column="email"/>
+        <result property="SEX" column="gender"/>
+        <result property="Gen_Time" column="gen_Time"/>
+        <result property="Login_Time" column="login_Time"/>
+        <result property="Last_Login_Time" column="last_login_time"/>
+        <result property="ISDelete" column="ISdelete"/>
+        <result property="Count" column="count"/>
+    </resultMap>
+
+
+    <insert id="AddUser" parameterType="User">
+        INSERT INTO  user(ID,userID,UserName,Password,email,gender)
+        VALUE(replace(uuid(), '-', ''),#{UserID},#{UserName},#{Password},#{Email},#{SEX});
+    </insert>
+    
+    <select id="LoginByUser" resultMap="UserResultMap" parameterType="User">
+        SELECT  * from user where userID=#{UserID} and Password=#{Password}
+    </select>
+
+    <select id="SeleteUserByUserID"  resultMap="UserResultMap" parameterType="String">
+        SELECT * FROM user where userID=#{UserID}
+    </select>
+
+
+</mapper>
