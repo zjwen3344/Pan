@@ -130,7 +130,7 @@ public class UploadServiceImpl implements UploadService {
         fileDao.Add(fileadd);
         System.out.println("向数据库添加文件成功");
         result.setCode("200");
-        result.setMsg("上传文件成功");
+        result.setMsg("上传文件成功！");
         return  json.toJSONString(result);
     }
 }
